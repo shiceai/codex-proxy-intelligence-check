@@ -1,0 +1,33 @@
+@import 'tailwindcss/theme.css' layer(theme);
+@import '@codex-proxy/ui/tailwind.css';
+@import 'tailwindcss/utilities.css' layer(utilities) source('../');
+
+html,
+body,
+#app {
+  height: auto;
+  min-width: 0;
+}
+
+body {
+  margin: 0;
+  background: transparent;
+}
+
+#app {
+  min-height: inherit;
+}
+
+/*
+ * 插件页面在宿主的 iframe 里，对话框遮罩只能盖住 iframe 本身，
+ * 半透明灰色会在宿主页面中间留下一块灰色矩形，因此去掉遮罩颜色。
+ * 遮罩元素仍保留，点击对话框外部照常关闭。
+ */
+.bg-z-bg-mask {
+  background-color: transparent;
+}
+
+/* 没有遮罩后，用细边框让对话框与页面分开（深色主题下尤其需要）。 */
+.z-modal-panel {
+  outline: 1px solid var(--color-z-border);
+}

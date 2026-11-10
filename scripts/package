@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# 构建前后端并用插件 CLI 打包；用法：scripts/package [target]
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+plugin_target="${1:-$(rustc -vV | awk '/^host: / {print $2}')}"
+plugin_cli="${PLUGIN_CLI:-cpr-plugin}"
+if ! command -v "$plugin_cli" >/dev/null 2>&1; then
+  echo '未找到插件 CLI，请按 README 安装或通过 PLUGIN_CLI 指定可执行文件' >&2
+  exit 1
+fi
+case "$plugin_target" in
+  x86_64-unknown-linux-gnu|aarch64-unknown-linux-gnu) ;;
+  *) echo "不支持的插件目标平台：$plugin_target" >&2; exit 1 ;;
+esac
+
+# corepack 按当前目录的 package.json 选择 pnpm 版本，须在 frontend 内执行
+(cd frontend && corepack pnpm install --frozen-lockfile && corepack pnpm build)
+cargo build --release --locked --target "$plugin_target" --manifest-path backend/Cargo.toml
+"$plugin_cli" package \
+  --manifest plugin.json \
+  --binary "backend/target/$plugin_target/release/codex-proxy-intelligence-check" \
+  --target "$plugin_target" \
+  --resource-map web=frontend/dist \
+  --output-dir dist

@@ -1,0 +1,38 @@
+[package]
+name = "codex-proxy-intelligence-check"
+version = "1.0.0"
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+autotests = false
+rust-version = "1.99.1"
+
+[[test]]
+name = "plugin"
+path = "tests/main.rs"
+
+[dependencies]
+gateway-plugin-sdk = { git = "https://github.com/zyycn/codex-proxy-rs.git", rev = "8c8618aa0f841638262262e3338c115bc075f125", features = ["io"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.150"
+tokio = { version = "1.52.3", default-features = false, features = ["io-std", "macros", "rt", "sync", "time"] }
+unicode-normalization = "0.1"
+
+[dev-dependencies]
+tokio = { version = "1.52.3", default-features = false, features = ["io-util", "test-util"] }
+
+[lints.rust]
+warnings = "deny"
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = { level = "deny", priority = 10 }
+redundant_clone = { level = "deny", priority = 9 }
+needless_collect = { level = "deny", priority = 8 }
+
+[profile.release]
+debug = false
+strip = "symbols"
+lto = "thin"
+codegen-units = 1
+panic = "abort"
