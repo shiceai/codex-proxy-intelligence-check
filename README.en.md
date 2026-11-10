@@ -12,6 +12,8 @@ It sends a reasoning question with a known answer to each selected account. A co
 
 The plugin only registers a management page and a background maintenance task. It stays out of the request pipeline and never changes accounts, groups or keys. Its UI is in Simplified Chinese.
 
+![Preview with mock data](docs/screenshots/overview.png)
+
 ## Installation
 
 Requires Codex Proxy RS 3.37 or a later 3.x release, running on Linux x86_64 (glibc 2.34 or later; the official Debian bookworm image works).

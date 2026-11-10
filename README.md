@@ -12,6 +12,8 @@
 
 插件只注册管理页面和后台维护两项能力，不介入请求链路，也不会改动账号、分组和 Key。
 
+![模拟数据预览](docs/screenshots/overview.png)
+
 ## 安装
 
 宿主需要 3.37 及以上的 3.x 版本，运行在 Linux x86_64 上（glibc 2.34 以上，官方 Debian bookworm 镜像满足）。
